@@ -1,0 +1,70 @@
+---
+
+- name: BASIC SETUP | Install Packages [Ubuntu]
+  apt:
+    name: "{{ server_basic_packages }}"
+    state: present
+    update_cache: yes
+  when: ansible_distribution == 'Ubuntu' or ansible_distribution == 'Debian'
+
+- name: BASIC SETUP | Copy Config Files
+  copy:
+    src: "{{ item.src }}"
+    dest: "{{ item.dest }}"
+    owner: "{{ item.owner }}"
+    group: "{{ item.group }}"
+    mode: "{{ item.mode }}"
+  with_items: "{{ server_basic_config_files }}"
+
+- name: BASIC SETUP | Copy Config Templates
+  template:
+    src: "{{ item.src }}"
+    dest: "{{ item.dest }}"
+    owner: "{{ item.owner }}"
+    group: "{{ item.group }}"
+    mode: "{{ item.mode }}"
+  with_items: "{{ server_basic_config_templates }}"
+
+- name: BASIC SETUP | Check If atop Is Installed
+  stat:
+    path: /usr/bin/atop
+  register: atop_check
+  changed_when: false
+
+- set_fact:
+    atop_installed: "{{ atop_check.stat.exists|bool }}"
+
+- name: BASIC SETUP | Configure atop Scan Interval
+  lineinfile:
+    path: /usr/share/atop/atop.daily
+    regexp: '^INTERVAL='
+    line: "INTERVAL={{ server_basic_atop_config['scan_interval'] }}"
+  notify: restart_atop
+  when: atop_installed == true
+
+- name: BASIC SETUP | Configure atop Rotation Policy
+  replace:
+    path: /usr/share/atop/atop.daily
+    regexp: '\-mtime \+28'
+    replace: "-mtime +{{ server_basic_atop_config['log_keepdays'] }}"
+  notify: restart_atop
+  when: atop_installed == true
+
+- name: BASIC SETUP | Check If resolv.conf Exists
+  stat:
+    path: /run/systemd/resolve/resolv.conf
+  register: resolv_check
+  changed_when: false
+  when: server_basic_fix_resolv_conf is defined and server_basic_fix_resolv_conf == true
+
+- set_fact:
+    resolv_conf_exists: "{{ resolv_check.stat.exists|bool }}"
+  when: server_basic_fix_resolv_conf is defined and server_basic_fix_resolv_conf == true
+
+- name: BASIC SETUP | Fix Systemd-Resolve
+  file:
+    src: /run/systemd/resolve/resolv.conf
+    dest: /etc/resolv.conf
+    state: link
+    force: true
+  when: (server_basic_fix_resolv_conf is defined and server_basic_fix_resolv_conf == true) and (resolv_conf_exists is defined and resolv_conf_exists == true)

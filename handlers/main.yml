@@ -1,0 +1,6 @@
+---
+
+- name: restart_atop
+  systemd:
+    name: atop
+    state: restarted

@@ -1,0 +1,36 @@
+---
+
+server_basic_packages: [ nano, atop ]
+
+server_basic_config_templates: [ 
+  {
+    src: "bashrc-root.j2",
+    dest: "/root/.bashrc",
+    owner: "root",
+    group: "root",
+    mode: "0600"
+  }
+]
+
+server_basic_config_files: [
+  {
+    src: "yaml.nanorc",
+    dest: "/usr/share/nano/yaml.nanorc",
+    owner: "root",
+    group: "root",
+    mode: "0644"
+  },
+  {
+    src: "nginx.nanorc",
+    dest: "/usr/share/nano/nginx.nanorc",
+    owner: "root",
+    group: "root",
+    mode: "0644"
+  }
+]
+
+server_basic_atop_config:
+  scan_interval: 30
+  log_keepdays: 14
+
+server_basic_fix_resolv_conf: false

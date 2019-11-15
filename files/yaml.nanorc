@@ -1,0 +1,22 @@
+# File location - /usr/share/nano/yaml.nanorc
+syntax "yaml" "\.(yml|yaml)$"
+
+#color brightyellow "\<([a-Z]|".*")\>"
+color brightyellow  "['\"].*['\"]"
+color brightcyan "\<(true|false|null)\>"
+
+#icolor magenta "[[:alnum:]]*:"
+icolor brightgreen "[[:alnum:]]*: "
+icolor brightgreen "^[[:space:]]*[.0-9A-Z_]*:"
+
+color green "\:\s\&.*\s.*"
+color green "\:\s\*.*$"
+
+color brightyellow ""(\\.|[^\"])*"" "'(\\.|[^'])*'"
+
+color green "[[:space:]]+$"
+#color brightblue "\-|\.|;|:|\{|\}|\|"
+
+color brightmagenta "\s[[:digit:]]*$"
+
+color brightred "#.*$"
