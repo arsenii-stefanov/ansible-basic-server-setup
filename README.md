@@ -37,6 +37,7 @@ server_basic_config_templates: [
 
 * `server_basic_config_files` - a list of files to copy to your server, the files are located in the `./files/` directory
 
+```
 server_basic_config_files: [
   {
     src: "<name of your file in the files directory (some_file_2.conf)>",
@@ -46,6 +47,7 @@ server_basic_config_files: [
     mode: "<file mode (0600, 0644)>"
   }
 ]
+```
 
 * `server_basic_atop_config` - if you decide to install `atop` (it is present in `server_basic_packages` by default)
 
