@@ -1,6 +1,6 @@
 ---
 
-server_basic_packages: [ nano, atop ]
+server_basic_packages_debian: [ nano, atop ]
 
 server_basic_config_templates: [ 
   {

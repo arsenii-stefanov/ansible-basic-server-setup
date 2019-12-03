@@ -2,7 +2,7 @@
 
 - name: BASIC SETUP | Install Packages [Ubuntu]
   apt:
-    name: "{{ server_basic_packages }}"
+    name: "{{ server_basic_packages_debian }}"
     state: present
     update_cache: yes
   when: ansible_distribution == 'Ubuntu' or ansible_distribution == 'Debian'

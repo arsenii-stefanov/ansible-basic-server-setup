@@ -13,11 +13,11 @@ This role performs a basic server setup:
 
 > Default values are set in `defaults/main.yml`
 
-* `server_basic_packages` - a list of packages to install on your server
+* `server_basic_packages_debian` - a list of packages to install on your Debian/Ubuntu server
 
 ```
 # Example
-server_basic_packages: [ some_package_1, some_package_2 ]
+server_basic_packages_debian: [ some_package_1, some_package_2 ]
 ```
 
 * `server_basic_config_templates` - a list of templates to copy to your server, the templates are located in the `./templates/` directory
@@ -49,7 +49,7 @@ server_basic_config_files: [
 ]
 ```
 
-* `server_basic_atop_config` - if you decide to install `atop` (it is present in `server_basic_packages` by default)
+* `server_basic_atop_config` - if you decide to install `atop` (it is present in `server_basic_packages_debian` by default)
 
 ```
 # Example
