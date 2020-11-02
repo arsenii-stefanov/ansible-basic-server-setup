@@ -1,6 +1,8 @@
 Ansible-Basic-Server-Setup
 =========
 
+#### It is highly recommended that you do not directly access this repository from your CI/CD jobs. Make a fork in your project's SCM instead. By doing so, you make sure that your cluster will not be broken in case one of the new commits appear to have a bug. You can keep the fork synchronized with the origin manually
+
 This role performs a basic server setup:
 
 * adds fancy `.bashrc` and `*.nanorc` files
