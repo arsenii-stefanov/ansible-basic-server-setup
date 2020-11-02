@@ -30,7 +30,7 @@ server_basic_config_files: [
 ]
 
 server_basic_atop_config:
-  scan_interval: 30
-  log_keepdays: 14
+  scan_interval: 60
+  log_keepdays: 7
 
 server_basic_fix_resolv_conf: false

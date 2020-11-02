@@ -1,0 +1,9 @@
+---
+
+server_basic_packages_debian: [ "atop", "nano" ]
+
+server_basic_atop_config:
+  scan_interval: 30
+  log_keepdays: 14
+
+server_basic_fix_resolv_conf: true
