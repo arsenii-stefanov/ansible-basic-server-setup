@@ -37,10 +37,35 @@
 - name: BASIC SETUP | Configure atop Scan Interval
   lineinfile:
     path: /usr/share/atop/atop.daily
+    regexp: '^INTERVAL='
+    line: "INTERVAL={{ server_basic_atop_config['scan_interval'] }}"
+  notify: restart_atop
+  when:
+    - atop_installed == true
+    - ansible_distribution == "Ubuntu"
+    - ansible_distribution_release == "bionic"
+
+- name: BASIC SETUP | Configure atop Scan Interval
+  lineinfile:
+    path: /usr/share/atop/atop.daily
     regexp: '^LOGINTERVAL='
     line: "LOGINTERVAL={{ server_basic_atop_config['scan_interval'] }}"
   notify: restart_atop
-  when: atop_installed == true
+  when:
+    - atop_installed == true
+    - ansible_distribution == "Ubuntu" or ansible_distribution == "Debian"
+    - ansible_distribution_release != "bionic" and ansible_distribution_release != "stretch"
+
+- name: BASIC SETUP | Configure atop Rotation Policy
+  replace:
+    path: /usr/share/atop/atop.daily
+    regexp: '\-mtime \+28'
+    replace: "-mtime +{{ server_basic_atop_config['log_keepdays'] }}"
+  notify: restart_atop
+  when:
+    - atop_installed == true
+    - ansible_distribution == "Ubuntu"
+    - ansible_distribution_release == "bionic"
 
 - name: BASIC SETUP | Configure atop Rotation Policy
   lineinfile:
@@ -48,7 +73,10 @@
     regexp: '^LOGGENERATIONS='
     line: "LOGGENERATIONS={{ server_basic_atop_config['log_keepdays'] }}"
   notify: restart_atop
-  when: atop_installed == true
+  when:
+    - atop_installed == true
+    - ansible_distribution == "Ubuntu" or ansible_distribution == "Debian"
+    - ansible_distribution_release != "bionic" and ansible_distribution_release != "stretch"
 
 - name: BASIC SETUP | Check If resolv.conf Exists
   stat:
