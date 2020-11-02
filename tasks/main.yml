@@ -43,10 +43,10 @@
   when: atop_installed == true
 
 - name: BASIC SETUP | Configure atop Rotation Policy
-  replace:
+  lineinfile:
     path: /usr/share/atop/atop.daily
-    regexp: '\-mtime \+28'
-    replace: "-mtime +{{ server_basic_atop_config['log_keepdays'] }}"
+    regexp: '^LOGGENERATIONS='
+    line: "LOGGENERATIONS={{ server_basic_atop_config['log_keepdays'] }}"
   notify: restart_atop
   when: atop_installed == true
 
