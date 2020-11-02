@@ -37,8 +37,8 @@
 - name: BASIC SETUP | Configure atop Scan Interval
   lineinfile:
     path: /usr/share/atop/atop.daily
-    regexp: '^INTERVAL='
-    line: "INTERVAL={{ server_basic_atop_config['scan_interval'] }}"
+    regexp: '^LOGINTERVAL='
+    line: "LOGINTERVAL={{ server_basic_atop_config['scan_interval'] }}"
   notify: restart_atop
   when: atop_installed == true
 
